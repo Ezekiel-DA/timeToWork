@@ -1,0 +1,4 @@
+node_modules
+.eslintrc
+private
+client/static/build

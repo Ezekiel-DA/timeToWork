@@ -17,25 +17,43 @@ app.use(express.static('client/static'));
 app.listen(8000);
     
 // Google Distance Matrix API setup
-let places = JSON.parse(fs.readFileSync('private/places.json')).places.join('|');
+var places;
+try {
+    places = JSON.parse(fs.readFileSync('private/places.json'));
+    if (!places) {
+        throw new Error('Places file parsed as JSON but resulted in an empty object.');
+    }
+}
+catch (err) {
+    console.log('Failed to get home/work place settings. Does private.places.json exist and contain {"home": "<address>", "work": "<address">} ?');
+    throw(err);
+}
+
+
 let apiKey = process.env['TTW_GOOGLE_DISTANCE_MATRIX_API_KEY'];
 if (!apiKey) {
     throw new Error('Missing API key for Google Distance Matrix API. Did you remember to set TTW_GOOGLE_DISTANCE_MATRIX_API_KEY ?');
 }
 
 let baseUrl = 'https://maps.googleapis.com/maps/api/distancematrix/json';
-let url = `${baseUrl}?origins=${places}&destinations=${places}&key=${apiKey}&departure_time=now&mode=driving&alternatives=true&units=metric&traffic_model=best_guess`;
+let options = 'departure_time=now&mode=driving&alternatives=true&units=metric&traffic_model=best_guess';
+let urlToWork = `${baseUrl}?origins=${places.home}&destinations=${places.work}&key=${apiKey}&${options}`;
+let urlFromWork = `${baseUrl}?origins=${places.work}&destinations=${places.home}&key=${apiKey}&${options}`;
 
 function queryTravelTime() {
-    return request(url, { json: true })
-    .then(res => {
-        let [toWork, fromWork] = res.rows.map(row => row.elements.filter(element => element.distance.value > 0)[0].duration.value);
+    return Promise.all([request(urlToWork, { json: true }), request(urlFromWork, {json: true})])
+    .then(resArray => {
+        let [toWork, fromWork] = resArray.map(res => res.rows[0].elements[0].duration_in_traffic.value);
         return {toWork, fromWork};
     });
 }
 
 // connect to MongoDB
-mongodb.MongoClient.connect('mongodb://192.168.99.100:27017/ttw').then(db => {
+let mongodbUrl = process.env['TTW_MONGODB_URL'];
+if (!mongodbUrl) {
+    throw new Error('Missing MongoDB URL setting. Did you remember to set TTW_MONGODB_URL to mongodb://<host>:<port>/<db> ?');
+}
+mongodb.MongoClient.connect(mongodbUrl).then(db => {
     console.log('connected to MongoDB');
     let collection = db.collection('datapoints');
     // query Google Distance Matrix every minute
@@ -54,7 +72,7 @@ mongodb.MongoClient.connect('mongodb://192.168.99.100:27017/ttw').then(db => {
     }
     
     getTravelTimeAndStoreInDB();
-    setInterval(getTravelTimeAndStoreInDB, 60 * 1000);
+    setInterval(getTravelTimeAndStoreInDB, 120 * 1000);
         
     // API endpoints
     app.get('/api/data/:day', (req, res) => {
@@ -74,9 +92,5 @@ mongodb.MongoClient.connect('mongodb://192.168.99.100:27017/ttw').then(db => {
         });
     });
 
-
-}).catch(err => {
-    console.log('Failed to connect to MongoDB. Try: docker run -d --name ttw-mongo -p 27017:27017 mongo');
-    throw err;
 });
 

@@ -56,5 +56,10 @@ function getData(date) {
     });
 }
 
-getData(new Date());
-setInterval(getData(new Date()), 60*1000);
+var today = new Date();
+today.setHours(0);
+today.setMinutes(0);
+today.setSeconds(0);
+today.setMilliseconds(0);
+getData(today);
+setInterval(getData(today), 60*1000);

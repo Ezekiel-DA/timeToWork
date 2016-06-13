@@ -1,7 +1,9 @@
 (function () {
     'use strict';
 
-    let moment = require('moment');
+    var moment = require('moment');
+    var request = require('request-promise');
+    var process = require('process');
 
     // Google Distance Matrix API setup
     var places;
@@ -10,8 +12,7 @@
         if (!places) {
             throw new Error('Places environment variable parsed as JSON but resulted in an empty object.');
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log('Failed to get home/work place settings. Did you remember to set TTW_PLACES_JSON_STRING to {"home": "<address>", "work": "<address">} ?');
         throw err;
     }
@@ -75,7 +76,7 @@
     exports.start = function (collection) {
         setTimeout(function callAPIAndReschedule() {
             if (!canSkipDataCollection(moment())) {
-                getTravelTimeAndStoreInDB();
+                getTravelTimeAndStoreInDB(collection);
             }
             setTimeout(callAPIAndReschedule, nextAPICallDelay(moment()));
         }, nextAPICallDelay(moment()));

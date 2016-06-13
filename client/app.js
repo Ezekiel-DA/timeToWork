@@ -2,6 +2,7 @@
 
 import 'whatwg-fetch';
 import 'metrics-graphics';
+var moment = require('moment');
 
 function massageData(raw) {
     return Object.keys(raw.values).map(h => Object.keys(raw.values[h]).map(m => {
@@ -56,10 +57,7 @@ function getData(date) {
     });
 }
 
-var today = new Date();
-today.setHours(0);
-today.setMinutes(0);
-today.setSeconds(0);
-today.setMilliseconds(0);
-getData(today);
+//var today = moment().startOf('day');
+var today = moment('2016-06-10').startOf('day');
+getData(today.toDate());
 setInterval(getData(today), 60*1000);

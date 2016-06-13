@@ -1,27 +1,27 @@
 # timeToWork
 
-# setup
-In docker-machine shell:
-  export SSH_AUTH_SOCK="S:\projects\keeagent.socket"
+## setup
+In a docker-machine shell:
 
-Run Mongo:
-  docker run -d --name ttw-mongo -v ttw-db:/data/db --net=ttw-internal-network mongo
+    export SSH_AUTH_SOCK=<path_to_socket_file>
 
-Backup and restore Mongo:
-  docker exec -it ttw-mongo bash
-Use mongodump and mongorestore
-docker cp to move backup files around
+## build
+    docker login
+    docker build -t nicolaslefebvre/ttw:alpha .
+    docker push nicolaslefebvre/ttw
+
+## deploy
+### Run Mongo
+    docker run -d --name ttw-mongo -v ttw-db:/data/db --net=ttw-internal-network mongo
+
+### Run TTW
+    docker pull nicolaslefebvre/ttw
+    docker run -d --name ttw-node --net=ttw-internal-network -p 80:8000 -e "TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<redacted>" -e "TTW_PLACES_JSON_STRING=<redacted>" -e "TTW_MONGODB_URL=<redacted>" nicolaslefebvre/ttw:alpha
+
+## Useful stuff
+### Backup and restore Mongo
+    docker exec -it ttw-mongo bash
+Use docker cp, mongodump and mongorestore
  
-Shell into same net and volumes as Mongo:
-  docker run -it --rm --net=ttw-internal-network --volumes-from=ttw-mongo mongo bash
-
-Build app and push it to Docker Hub:
-  docker login
-  docker build -t nicolaslefebvre/ttw:alpha .
-  docker push nicolaslefebvre/ttw
-
-Run app:
-  docker login
-  docker pull nicolaslefebvre/ttw
-  docker run -d --name ttw-node --net=ttw-internal-network -p 80:8000 -e "TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<redacted>" -e "TTW_PLACES_JSON_STRING=<redacted>" -e "TTW_MONGODB_URL=<redacted>" nicolaslefebvre/ttw:alpha
-
+### Open a shell into the same net and volumes as Mongo:
+    docker run -it --rm --net=ttw-internal-network --volumes-from=ttw-mongo mongo bash

@@ -39,6 +39,7 @@
 
             collection.findOne({ daystamp: reqDate.startOf('day').toDate() })
                 .then(data => {
+                    data = data || {daystamp: req.params.day};
                     res.send(data);
                 })
                 .catch(err => {

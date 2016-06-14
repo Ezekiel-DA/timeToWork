@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width">
-        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href='metricsgraphics.css' rel='stylesheet' type='text/css'>
-        <link href='style.css' rel='stylesheet' type='text/css'>
-        <title>TimeToWork</title>
-    </head>
-    <body>
-        <div id="app" class="container">
-            <div class="today-graph-towork"></div>
-            <hr />
-            <div class="today-graph-fromwork"></div>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+    <link href='metricsgraphics.css' rel='stylesheet' type='text/css'>
+    <link href='style.css' rel='stylesheet' type='text/css'>
+    <link rel="icon" href="favicon.png">
+    <title>TimeToWork</title>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class=appHeader>
+            <h1>Time to and from work</h1>
         </div>
-        <script src="build/app_bundle.js"></script>
-    </body>
+        <div id=ttw-graphs>
+            <div id="today-graph"></div>
+            <!--<hr>-->
+        </div>
+    </div>
+    <script src="build/app_bundle.js"></script>
+</body>
+
 </html>

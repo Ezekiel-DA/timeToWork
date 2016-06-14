@@ -1,10 +1,19 @@
-body {
+/*body {
   font-family: 'Open Sans', sans-serif, Arial;
   font-size: 10px;
-  /*line-height: 20px;*/
+  line-height: 20px;
+}*/
+
+body {
+    font-family: 'Open Sans', sans-serif, Arial;
 }
 
 #app {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
+}
+
+.appHeader {
+  margin: 50px auto;
+  text-align: center;
 }

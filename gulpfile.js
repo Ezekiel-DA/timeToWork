@@ -11,15 +11,14 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gulpif = require('gulp-if');
 
-//var production = process.env.NODE_ENV === 'production';
-var production = process.env.NODE_ENV;
+var production = process.env.NODE_ENV === 'production';
 
 gulp.task('start', function () {
     nodemon({
         script: './server/main.js',
         watch: ['server'],
         ignore: ['gulpfile.js'],
-        env: { 'NODE_ENV': 'development' }
+        env: { 'NODE_ENV': process.env.NODE_ENV || 'development' }
     });
 });
 
@@ -30,7 +29,7 @@ gulp.task('browserify', function () {
         .pipe(source('app_bundle.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(gulpif(production, uglify({ mangle: false })))
+        .pipe(gulpif(production, uglify({ mangle: true })))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('client/static/build'))
         .pipe(livereload());

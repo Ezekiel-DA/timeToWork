@@ -1,0 +1,44 @@
+{
+    "env": {
+            "es6": true,
+            // for XDesign
+            "browser": true,
+            "amd": true,
+            // for cmd line utilities
+            "node": true,
+            // for ODTs
+            "jasmine": true
+        },
+
+    "rules": {
+        "strict": [2], // require 'use strict'
+        "indent": [2, 4], // enforce correct indentation (MANDATORY); indent by 4 spaces (RECOMMENDATION)
+        "semi": [2, "always"], // forbid reliance on ASI
+        "operator-linebreak": [2, "after"], // linebreaks must always be after operators
+        "comma-style": [2, "last"], // linebreaks must always be after commas
+        "no-use-before-define": 2, // always declare variables before using them (forbid usage of hoisting)
+        "block-scoped-var": 2, // disallow declaration of variables at block scope
+        "no-new-wrappers": 2, // do not manually create primitive wrappers (Number, String, Boolean)
+        "no-with": 2, // disallow usage of with statements,
+        "eqeqeq": [2, "smart"], // require usage of === instead of == and !== instead of !=
+        "no-eval": 2, // forbid use of eval()
+        "no-eq-null": 2, // forbid checking variables against null
+        
+        "curly": 2, // enforce braces after tests and loops in all cases
+        "wrap-iife": [2, "any"], // IIFEs should be wrapped in parentheses (style guide does not specifiy "inside" or "outside")
+
+        "guard-for-in": 2, // for-in should be protected by a hasOwnProperty test
+        "no-undefined": 2, // forbid use of undefined
+
+        "quotes": [2, "single", "avoid-escape"], // prefer simple quotes
+        "max-len": [2, 200, 4, {"ignoreComments": true, "ignoreUrls": true}], // limit line length to 200 (ignoring URLs and comments)
+        "no-floating-decimal": 2, // no leading or trailing decimal points in numbers
+        "no-spaced-func": 2, // no space between function name and (
+        "default-case": 2, // always include a default case in switch
+
+        "camelcase": 2,
+
+        "linebreak-style": 0 // prevent ESLint from complaining about Windows vs Unix style linebreaks
+    },
+    "extends": "eslint:recommended" // DO NOT REMOVE. Adds all of the rules listed as recommeded here : http://eslint.org/docs/rules/index.html
+}

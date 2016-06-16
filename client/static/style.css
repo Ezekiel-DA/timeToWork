@@ -1,15 +1,10 @@
-/*body {
-  font-family: 'Open Sans', sans-serif, Arial;
-  font-size: 10px;
-  line-height: 20px;
-}*/
-
 body {
     font-family: 'Open Sans', sans-serif, Arial;
 }
 
 #app {
-  max-width: 1000px;
+  /*max-width: 900px;*/
+  width: 980px;
   margin: 0 auto;
 }
 

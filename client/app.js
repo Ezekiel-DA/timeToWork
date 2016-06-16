@@ -5,16 +5,20 @@ import 'whatwg-fetch';
 import MG from 'metrics-graphics';
 import moment from 'moment';
 import _ from 'underscore';
+import d3 from 'd3';
+
+function sToM(s) {
+    return (s / 60);
+}
 
 function rawDataToSingleArray(raw) {
     return Object.keys(raw.values).map(h => Object.keys(raw.values[h]).map(m => {
-        var time = new Date(raw.daystamp);
-        time.setHours(h);
-        time.setMinutes(m);
+        var time = moment(raw.daystamp);
+        time.hours(h);
+        time.minutes(m);
         return {
-            time: time,
-            toWork: Math.round(raw.values[h][m].toWork / 60),
-            fromWork: Math.round(raw.values[h][m].fromWork / 60)
+            time: time.toDate(),
+            value: time.hours() < 12 ? sToM(raw.values[h][m].toWork) : (time.hours() < 13 ? null : sToM(raw.values[h][m].fromWork))
         };
     })).reduce(function (prev, cur) {
         prev = prev.concat(cur);
@@ -31,10 +35,17 @@ function singleArrayToArrayOfArray(data) {
 }
 
 function draw(data, target) {
+    var timeMarkers = [
+        {time: moment(data.daystamp).hours(8).minutes(0).toDate()},
+        {time: moment(data.daystamp).hours(17).minutes(0).toDate()}
+    ];
+
     var commonSettings = {
         title: moment(data.daystamp).format("dddd, MMMM Do YYYY"),
-        target, width: 1000, height: 400, left: 100, right: 50,
-        y_label: 'mins', animate_on_load: true, missing_is_hidden: true
+        target, full_width: true, height: 400, left: 100, right: 50, area: false,
+        markers: timeMarkers, x_extended_ticks: true, xax_count: 10,
+        y_label: 'mins', animate_on_load: true, missing_is_hidden: true, min_y: 30, show_secondary_x_label: false, decimals: 0,
+        y_extended_ticks: true, min_x: moment(data.daystamp).hours(6).minutes(0).toDate(), max_x: moment(data.daystamp).hours(20).minutes(0).toDate()
     };
 
     if (!data.values) {
@@ -45,8 +56,10 @@ function draw(data, target) {
     }
     else {
         MG.data_graphic(_.extend({    
-            data: singleArrayToArrayOfArray(rawDataToSingleArray(data)),
-            legend: ['to', 'from']
+            //data: singleArrayToArrayOfArray(rawDataToSingleArray(data)),
+            data: rawDataToSingleArray(data),
+            x_accessor: 'time', y_accessor: 'value',
+            // legend: ['to', 'from']
         }, commonSettings));
     }
 }

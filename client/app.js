@@ -13,11 +13,12 @@ function sToM(s) {
 
 function rawDataToSingleArray(raw) {
     return Object.keys(raw.values).map(h => Object.keys(raw.values[h]).map(m => {
-        var time = moment(raw.daystamp);
+        //var time = moment(raw.daystamp);
+        var time = moment();
         time.hours(h);
         time.minutes(m);
         return {
-            time: time.toDate(),
+            date: time.toDate(),
             value: time.hours() < 12 ? sToM(raw.values[h][m].toWork) : (time.hours() < 13 ? null : sToM(raw.values[h][m].fromWork))
         };
     })).reduce(function (prev, cur) {
@@ -32,6 +33,23 @@ function singleArrayToArrayOfArray(data) {
     }), data.map(c => {
         return { date: c.time, value: c.fromWork };
     })];
+}
+
+function drawAll(allRawData, target) {
+    var allData = allRawData.filter(rawData => rawData.values).map(rawDataToSingleArray);
+
+    var timeMarkers = [
+        {date: moment().hours(8).minutes(0).toDate()},
+        {date: moment().hours(17).minutes(0).toDate()}
+    ];
+    MG.data_graphic({
+        data: allData,
+        target, full_width: true, height: 500, left: 100, right: 50,
+        markers: timeMarkers, x_extended_ticks: true, xax_count: 10,
+        y_label: 'mins', animate_on_load: true, missing_is_hidden: true, min_y: 30, show_secondary_x_label: false, decimals: 0,
+        y_extended_ticks: true, min_x: moment().hours(6).minutes(0).toDate(), max_x: moment().hours(20).minutes(0).toDate(),
+        legend: allRawData.map(rawData => moment(rawData.daystamp).format('DD-MM')), x_rollover_format: '%H:%M '
+    });
 }
 
 function draw(data, target) {
@@ -105,6 +123,7 @@ var today = moment().startOf('day');
 var moments = buildMoments(today);
 var targetDivMaker = TargetDivGenerator(document.getElementById('ttw-graphs'));
 Promise.all(moments.map(getData))
-.then(allData => allData.map(data => draw(data, targetDivMaker.next().value)));
+//.then(allData => allData.map(data => draw(data, targetDivMaker.next().value)));
+.then(allData => drawAll(allData, targetDivMaker.next().value));
 
 //setInterval(getData(today), 60*1000);

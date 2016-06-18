@@ -21,7 +21,17 @@ In a docker-machine shell:
 ## Useful stuff
 ### Backup and restore Mongo
     docker exec -it ttw-mongo bash
-Use docker cp, mongodump and mongorestore
+Use docker cp, mongodump and mongorestore, for example:
+
+    docker exec ttw-mongo mongodump --db=ttw --gzip --archive=/tmp/dump.mongo
+    docker cp ttw-mongo:/tmp/dump.mongo ./private/
+
+Change to another env and then:
+
+    docker cp ./private/dump.mongo ttw-mongo:/tmp/dump.mongo
+    docker exec ttw-mongo mongorestore --gzip --archive=/tmp/dump.mongo
+    
+
  
 ### Open a shell into the same net and volumes as Mongo:
     docker run -it --rm --net=ttw-internal-network --volumes-from=ttw-mongo mongo bash

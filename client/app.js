@@ -13,13 +13,13 @@ function sToM(s) {
 
 function rawDataToSingleArray(raw) {
     return Object.keys(raw.values).map(h => Object.keys(raw.values[h]).map(m => {
-        //var time = moment(raw.daystamp);
         var time = moment();
         time.hours(h);
         time.minutes(m);
         return {
             date: time.toDate(),
-            value: time.hours() < 12 ? sToM(raw.values[h][m].toWork) : (time.hours() < 13 ? null : sToM(raw.values[h][m].fromWork))
+            value: time.hours() < 12 ? sToM(raw.values[h][m].toWork) : (time.hours() < 13 ? null : sToM(raw.values[h][m].fromWork)),
+            daystamp: raw.daystamp
         };
     })).reduce(function (prev, cur) {
         prev = prev.concat(cur);
@@ -44,11 +44,12 @@ function drawAll(allRawData, target) {
     ];
     MG.data_graphic({
         data: allData,
+        title: `${moment(allRawData[0].daystamp).format('dddd MMMM Do YYYY')} to ${moment(allRawData[allRawData.length-1].daystamp).format('dddd MMMM Do YYYY')}`,
         target, full_width: true, height: 500, left: 100, right: 50,
-        markers: timeMarkers, x_extended_ticks: true, xax_count: 10,
+        markers: timeMarkers, x_extended_ticks: true, xax_count: 10, yax_count: 10,
         y_label: 'mins', animate_on_load: true, missing_is_hidden: true, min_y: 30, show_secondary_x_label: false, decimals: 0,
         y_extended_ticks: true, min_x: moment().hours(6).minutes(0).toDate(), max_x: moment().hours(20).minutes(0).toDate(),
-        legend: allRawData.map(rawData => moment(rawData.daystamp).format('DD-MM')), x_rollover_format: '%H:%M '
+        legend: allData.map(data => moment(data[0].daystamp).format('ddd')), x_rollover_format: '%H:%M '
     });
 }
 
@@ -60,7 +61,7 @@ function draw(data, target) {
 
     var commonSettings = {
         title: moment(data.daystamp).format("dddd, MMMM Do YYYY"),
-        target, full_width: true, height: 400, left: 100, right: 50, area: false,
+        target, full_width: true, height: 400, left: 50, right: 50, area: false,
         markers: timeMarkers, x_extended_ticks: true, xax_count: 10,
         y_label: 'mins', animate_on_load: true, missing_is_hidden: true, min_y: 30, show_secondary_x_label: false, decimals: 0,
         y_extended_ticks: true, min_x: moment(data.daystamp).hours(6).minutes(0).toDate(), max_x: moment(data.daystamp).hours(20).minutes(0).toDate()
@@ -72,14 +73,6 @@ function draw(data, target) {
             missing_text: 'No data for '+moment(data.daystamp).format("dddd, MMMM Do YYYY")    
         }, commonSettings));
     }
-    else {
-        MG.data_graphic(_.extend({    
-            //data: singleArrayToArrayOfArray(rawDataToSingleArray(data)),
-            data: rawDataToSingleArray(data),
-            x_accessor: 'time', y_accessor: 'value',
-            // legend: ['to', 'from']
-        }, commonSettings));
-    }
 }
 
 function getData(date) {
@@ -89,7 +82,7 @@ function getData(date) {
     });
 }
 
-// build the list of n valid dates ('today' included) to display from the 'today' input
+// build the list of n valid dates ('today' included) to display from the 'today' input, in chronological order
 function buildMoments(today, n = 5) {
     let t = moment(today);
     let ret = [];
@@ -103,7 +96,7 @@ function buildMoments(today, n = 5) {
         ret.push(moment(t));
     }
 
-    return ret;
+    return ret.reverse();
 }
 
 function* TargetDivGenerator(root) {
@@ -120,10 +113,10 @@ function* TargetDivGenerator(root) {
 }
 
 var today = moment().startOf('day');
+if (today.isoWeekday() === 6 || today.isoWeekday() === 7) { // jump back to friday if weekend
+    today.isoWeekday(5);
+}
 var moments = buildMoments(today);
 var targetDivMaker = TargetDivGenerator(document.getElementById('ttw-graphs'));
 Promise.all(moments.map(getData))
-//.then(allData => allData.map(data => draw(data, targetDivMaker.next().value)));
 .then(allData => drawAll(allData, targetDivMaker.next().value));
-
-//setInterval(getData(today), 60*1000);

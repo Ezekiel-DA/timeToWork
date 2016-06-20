@@ -1,0 +1,30 @@
+version: '2'
+services:
+    ttw-mongo:
+        image: mongo
+        networks:
+            - "ttw-internal-network"
+        volumes:
+            - ttw-db:/data/db
+    ttw-node:
+        image: nicolaslefebvre/ttw:alpha
+        networks:
+            - "ttw-internal-network"
+        depends_on:
+            - ttw-mongo
+        ports:
+            - "80:8000"
+        environment:
+            NODE_ENV: production
+            TTW_MONGODB_URL: mongodb://ttw-mongo:27017/ttw
+            TTW_GOOGLE_DISTANCE_MATRIX_API_KEY: 
+            TTW_PLACES_JSON_STRING:
+
+volumes:
+    ttw-db:
+        external: true
+
+networks:
+    ttw-internal-network:
+        external: true
+        

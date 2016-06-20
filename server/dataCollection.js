@@ -80,5 +80,5 @@
             }
             setTimeout(callAPIAndReschedule, nextAPICallDelay(moment()));
         }, nextAPICallDelay(moment()));
-    }
+    };
 })();

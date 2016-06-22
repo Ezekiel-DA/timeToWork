@@ -1,6 +1,6 @@
 # timeToWork
 
-[![CircleCI](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=svg)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
+[![CircleCI](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=shield)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
 
 ## setup
 In a docker-machine shell:

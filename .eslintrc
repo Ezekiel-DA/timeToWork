@@ -9,6 +9,9 @@
             // for ODTs
             "jasmine": true
         },
+    "parserOptions": {
+        "sourceType": "module"
+    },
 
     "rules": {
         "strict": [2], // require 'use strict'

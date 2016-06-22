@@ -10,6 +10,9 @@ var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gulpif = require('gulp-if');
+var tape = require('gulp-tape');
+var tapColorize = require('tap-colorize');
+var babel = require('gulp-babel');
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -46,7 +49,14 @@ gulp.task('watch-app', function () {
     gulp.watch(['client/*.js'], ['browserify']);
 });
 
+gulp.task('test', function() {
+    return gulp.src('tests/*.js')
+        .pipe(babel({presets: ['es2015']}))
+        .pipe(tape({
+            reporter: tapColorize()
+        }));
+});
 
-gulp.task('default', ['start', 'watch-static', 'watch-app'], function () {
+gulp.task('default', ['start', 'watch-static', 'watch-app', 'watch-test'], function () {
     livereload.listen();
 });

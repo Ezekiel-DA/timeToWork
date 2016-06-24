@@ -9,5 +9,8 @@ body {
 
 .appHeader {
   margin: 50px auto;
-  text-align: center;
+}
+
+.center {
+    text-align: center;
 }

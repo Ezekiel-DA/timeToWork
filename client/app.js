@@ -26,6 +26,10 @@ function rawDataToSingleArray(raw) {
 
 function drawAll(allRawData, target) {
     var allData = allRawData.filter(rawData => rawData.values).map(rawDataToSingleArray);
+    
+    if (!allData.length) {
+        return; // nothing to do, no data at all in input !
+    }
 
     var timeMarkers = [
         {date: moment().hours(8).minutes(0).toDate()},
@@ -67,7 +71,7 @@ function* TargetDivGenerator(root) {
         root.appendChild(legendTargetDiv);
         yield {
             graph: `#${id}`,
-            legend: `#${legendId}`,
+            legend: `#${legendId}`
         };
         let hr = document.createElement('hr');
         root.appendChild(hr);

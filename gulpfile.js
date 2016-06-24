@@ -57,6 +57,6 @@ gulp.task('test', function() {
         }));
 });
 
-gulp.task('default', ['start', 'watch-static', 'watch-app', 'watch-test'], function () {
+gulp.task('default', ['browserify', 'start', 'watch-static', 'watch-app'], function () {
     livereload.listen();
 });

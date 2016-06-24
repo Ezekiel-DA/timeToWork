@@ -26,14 +26,14 @@ gulp.task('start', function () {
 });
 
 gulp.task('browserify', function () {
-    return browserify({ entries: 'client/app.js', debug: true })
+    return browserify({ entries: 'client/app.js', debug: !production })
         .transform(babelify)
         .bundle()
         .pipe(source('app_bundle.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init({ loadMaps: true }))
+        //.pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(gulpif(production, uglify({ mangle: true })))
-        .pipe(sourcemaps.write('.'))
+        //.pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('client/static/build'))
         .pipe(livereload());
 });
@@ -51,7 +51,10 @@ gulp.task('watch-app', function () {
 
 gulp.task('test', function() {
     return gulp.src('tests/*.js')
+        .pipe(sourcemaps.init())
         .pipe(babel({presets: ['es2015']}))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('tests/build'))
         .pipe(tape({
             reporter: tapColorize()
         }));

@@ -1,3 +1,4 @@
 node_modules
 private
 client/static/build
+tests/build

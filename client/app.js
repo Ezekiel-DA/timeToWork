@@ -67,18 +67,26 @@ function* TargetDivGenerator(root) {
         root.appendChild(legendTargetDiv);
         yield {
             graph: `#${id}`,
-            legend: `#${legendId}`,
+            legend: `#${legendId}`
         };
         let hr = document.createElement('hr');
         root.appendChild(hr);
     }
 }
 
+var targetDivMaker = TargetDivGenerator(document.getElementById('ttw-graphs'));
+
 var today = moment().startOf('day');
 if (today.isoWeekday() === 6 || today.isoWeekday() === 7) { // jump back to friday if weekend
     today.isoWeekday(5);
+
 }
-var moments = services.buildMoments(today);
-var targetDivMaker = TargetDivGenerator(document.getElementById('ttw-graphs'));
-Promise.all(moments.map(getData))
-.then(allData => drawAll(allData, targetDivMaker.next().value));
+var weeks = services.buildWeeks(today, 4);
+weeks.reverse().forEach(week => {
+    Promise.all(week.map(getData))
+    .then(weekData => {
+        if (weekData.some(day => day.values)) { // draw only if at least one day has actual data to show
+            drawAll(weekData, targetDivMaker.next().value);
+        }
+    });
+});

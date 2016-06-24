@@ -16,9 +16,8 @@
     "rules": {
         "strict": [2], // require 'use strict'
         "indent": [2, 4], // enforce correct indentation (MANDATORY); indent by 4 spaces (RECOMMENDATION)
-        "semi": [2, "always"], // forbid reliance on ASI
         "operator-linebreak": [2, "after"], // linebreaks must always be after operators
-        "comma-style": [2, "last"], // linebreaks must always be after commas
+        "comma-style": [2, "last", {"exceptions": {"VariableDeclaration": true}}], // linebreaks must always be after commas
         "no-use-before-define": 2, // always declare variables before using them (forbid usage of hoisting)
         "block-scoped-var": 2, // disallow declaration of variables at block scope
         "no-new-wrappers": 2, // do not manually create primitive wrappers (Number, String, Boolean)

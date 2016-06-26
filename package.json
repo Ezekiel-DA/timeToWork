@@ -13,7 +13,7 @@
   "dependencies": {
     "express": "^4.13.4",
     "http-status": "^0.2.3",
-    "metrics-graphics": "^2.8.0",
+    "metrics-graphics": "Ezekiel-DA/metrics-graphics#center_title_full_width",
     "moment": "^2.13.0",
     "moment-range": "^2.2.0",
     "mongodb": "^2.1.18",

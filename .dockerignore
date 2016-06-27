@@ -1,6 +1,12 @@
+.git
 private
 node_modules
-.git
-.gitignore
-*.js.map
+tests
+build
 
+.eslintrc
+.gitignore
+circle.yml
+docker-compose.yml
+README.md
+*.js.map

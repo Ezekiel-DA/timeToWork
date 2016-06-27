@@ -3,6 +3,8 @@ machine:
         America/New_York
     node:
         version: 6.1.0
+    services:
+        - docker
 dependencies:
     pre:
         - npm install -g babel-cli

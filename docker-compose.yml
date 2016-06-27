@@ -3,15 +3,11 @@ services:
     ttw-mongo:
         container_name: ttw-mongo
         image: mongo
-        networks:
-            - "ttw-internal-network"
         volumes:
             - ttw-db:/data/db
     ttw-node:
         container_name: ttw-node
         image: nicolaslefebvre/ttw:alpha
-        networks:
-            - "ttw-internal-network"
         depends_on:
             - ttw-mongo
         ports:
@@ -24,8 +20,4 @@ services:
 
 volumes:
     ttw-db:
-        external: true
-
-networks:
-    ttw-internal-network:
-        external: true
+        driver: local

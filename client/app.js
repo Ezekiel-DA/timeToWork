@@ -42,7 +42,7 @@ function drawAll(allRawData, target) {
     MG.data_graphic({
         data: allData,
         'title': `${moment(allRawData[0].daystamp).format('dddd MMMM Do YYYY')} to ${moment(allRawData[allRawData.length-1].daystamp).format('dddd MMMM Do YYYY')}`,
-        'target': target.graph, 'full_width': true, 'height': 500, 'left': 100, 'center_title_full_width': true,
+        'target': target.graph, 'full_width': true, 'height': 500, 'left': 100, 'right': 50, 'center_title_full_width': true,
         'markers': timeMarkers, 'x_extended_ticks': false, 'xax_count': 10, 'yax_count': 10,
         'y_label': 'mins', 'animate_on_load': true, 'missing_is_hidden': true, 'min_y': 30, 'show_secondary_x_label': false, 'decimals': 0,
         'y_extended_ticks': true, 'min_x': moment().hours(6).minutes(0).toDate(), 'max_x': moment().hours(20).minutes(0).toDate(),

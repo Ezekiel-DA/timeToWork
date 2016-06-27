@@ -11,6 +11,7 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
+    "bluebird": "^3.4.1",
     "express": "^4.13.4",
     "http-status": "^0.2.3",
     "metrics-graphics": "Ezekiel-DA/metrics-graphics#center_title_full_width",

@@ -2,11 +2,6 @@
 
 [![CircleCI](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=shield)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
 
-## setup
-In a docker-machine shell:
-
-    export SSH_AUTH_SOCK=<path_to_socket_file>
-
 ## build
     docker login
     docker build -t nicolaslefebvre/ttw:alpha .
@@ -20,7 +15,7 @@ In a docker-machine shell:
     docker pull nicolaslefebvre/ttw
     docker run -d --name ttw-node --net=ttw-internal-network -p 80:8000 -e "NODE_ENV=production" -e "TTW_MONGODB_URL=mongodb://ttw-mongo:27017/ttw" -e "TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<redacted>" -e "TTW_PLACES_JSON_STRING=<redacted>" nicolaslefebvre/ttw:alpha
 
-## Useful stuff
+## Misc useful stuff
 ### Backup and restore Mongo
     docker exec -it ttw-mongo bash
 Use docker cp, mongodump and mongorestore, for example:
@@ -32,8 +27,16 @@ Change to another env and then:
 
     docker cp ./private/dump.mongo ttw-mongo:/tmp/dump.mongo
     docker exec ttw-mongo mongorestore --gzip --archive=/tmp/dump.mongo
-    
-
- 
+     
 ### Open a shell into the same net and volumes as Mongo:
     docker run -it --rm --net=ttw-internal-network --volumes-from=ttw-mongo mongo bash
+
+### using ssh keys stored in Keepass2
+- install [KeePass2](http://keepass.info/download.html)
+- install [KeeAgent](http://lechnology.com/software/keeagent/)
+- configure KeeAgent to [use a Cygwin socket](http://lechnology.com/software/keeagent/usage/options-and-settings/)
+- attach SSH keys to a Keepass2 entry and [configure KeeAgent](http://lechnology.com/software/keeagent/usage/quick-start/). SSH and Putty key formats are both accepted.
+- in a docker-machine shell:
+    
+
+    export SSH_AUTH_SOCK=<path_to_socket_file>

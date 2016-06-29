@@ -14,12 +14,11 @@
     "bluebird": "^3.4.1",
     "express": "^4.13.4",
     "http-status": "^0.2.3",
-    "metrics-graphics": "mozilla/metrics-graphics#62f0ae3fed406716924e12cf218fb47a5ff95f57",
+    "metrics-graphics": "^2.9.0",
     "moment": "^2.13.0",
     "moment-range": "^2.2.0",
     "mongodb": "^2.1.18",
     "request-promise": "^3.0.0",
-    "underscore": "^1.8.3",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {

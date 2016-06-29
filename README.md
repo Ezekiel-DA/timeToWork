@@ -1,5 +1,7 @@
 # timeToWork
 
+A simple website to graph your commute time, powered by Google Maps' live traffic information.
+
 [![CircleCI](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=shield)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
 
 ## Prerequisites

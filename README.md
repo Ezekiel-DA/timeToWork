@@ -27,19 +27,30 @@ In other words:
 Don't forget to escape the `"`s in your address JSON ! (e.g. `-e "TTW_PLACES_JSON_STRING={\"home\":\"<address>\",\"work\":\"<address>"}"`
 
 ## Building from source
+You'll need:
+- git
+- node (likely 6+)
+- browserify and gulp installed globally (`npm -g i browserify gulp-cli`)
 
-## build
-    docker login
+### Building and running locally
+    git pull https://github.com/Ezekiel-DA/timeToWork.git
+    npm install
+    gulp
+
+The default `gulp` action is to browserify the client side of the app (built into `./client/static/build`), start the Node server and watch the client and server sides for change to rerun these steps.
+If you have `Livereload` installed in your browser, client side code changes will also reload the page.
+
+On the first run, the server will likely fail to start because of missing environment variables. The error messages should be explicit and the needed variables are [the same as above](#deployement-only).
+
+### Building the Docker image
     docker build -t nicolaslefebvre/ttw:alpha .
+
+### Updating the image in the Docker Hub registry
+    docker login
     docker push nicolaslefebvre/ttw
 
-## deploy
-### Run Mongo
-    docker run -d --name ttw-mongo -v ttw-db:/data/db --net=ttw-internal-network mongo
-
-### Run TTW
-    docker pull nicolaslefebvre/ttw
-    docker run -d --name ttw-node --net=ttw-internal-network -p 80:8000 -e "NODE_ENV=production" -e "TTW_MONGODB_URL=mongodb://ttw-mongo:27017/ttw" -e "TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<redacted>" -e "TTW_PLACES_JSON_STRING=<redacted>" nicolaslefebvre/ttw:alpha
+### Deploying from source
+    docker-compose up -d
 
 ## Misc useful stuff
 ### Services I've used

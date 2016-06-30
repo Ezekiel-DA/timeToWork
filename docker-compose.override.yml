@@ -1,0 +1,6 @@
+version: '2'
+services:
+    ttw-node:
+        build: .
+        environment:
+            NODE_ENV: development

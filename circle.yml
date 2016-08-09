@@ -8,5 +8,5 @@ machine:
 dependencies:
     pre:
         - npm install -g babel-cli
-    override:
-        - npm install --dev
+    post: # force install dev dependencies for test even though we may have the env set to production (so that client side js is minified etc)
+        - npm install --only=dev

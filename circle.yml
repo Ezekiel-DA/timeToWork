@@ -7,4 +7,4 @@ machine:
         - docker
 dependencies:
     pre:
-        - npm install -g babel-cli
+        - npm install -g babel-cli babel-preset-es2015

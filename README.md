@@ -2,7 +2,10 @@
 
 A simple website to graph your commute time, powered by Google Maps' live traffic information.
 
-[![CircleCI](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=shield)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
+[![CircleCI build status](https://circleci.com/gh/Ezekiel-DA/timeToWork.svg?style=shield)](https://circleci.com/gh/Ezekiel-DA/timeToWork)
+[![David dependency status](https://david-dm.org/Ezekiel-DA/timeToWork/status.svg)](https://david-dm.org/Ezekiel-DA/timeToWork)
+[![David devDependency status](https://david-dm.org/Ezekiel-DA/timeToWork/dev-status.svg)](https://david-dm.org/Ezekiel-DA/timeToWork?type=dev)
+
 
 ## Prerequisites
 You'll need:

@@ -11,7 +11,7 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "bluebird": "^3.4.1",
+    "bluebird": "^3.4.3",
     "express": "^4.13.4",
     "http-status": "^0.2.3",
     "metrics-graphics": "^2.9.0",

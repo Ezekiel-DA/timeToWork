@@ -46,7 +46,8 @@ function drawAll(allRawData, target) {
         'markers': timeMarkers, 'x_extended_ticks': false, 'xax_count': 10, 'yax_count': 10,
         'y_label': 'mins', 'animate_on_load': true, 'missing_is_hidden': true, 'min_y': 30, 'show_secondary_x_label': false, 'decimals': 0,
         'y_extended_ticks': true, 'min_x': moment().hours(6).minutes(0).toDate(), 'max_x': moment().hours(20).minutes(0).toDate(),
-        'legend': allData.map(data => moment(data[0].daystamp).format('ddd')), 'x_rollover_format': '%H:%M ', 'legend_target': target.legend
+        'legend': allData.map(data => moment(data[0].daystamp).format('ddd')), 'x_mouseover': '%H:%M ', 'legend_target': target.legend
+        
     })
 }
 

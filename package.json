@@ -21,7 +21,7 @@
     "mongodb": "^2.2.10",
     "request-promise": "^4.1.1",
     "request": "^2.75.0",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
     "babel-polyfill": "^6.16.0",

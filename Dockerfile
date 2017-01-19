@@ -1,4 +1,4 @@
-FROM node:onbuild
+FROM node:6.9.4-onbuild
 MAINTAINER Nicolas Lefebvre <nicolas.lefebvre.lp@gmail.com>
 
 # set timezone correctly

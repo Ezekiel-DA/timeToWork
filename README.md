@@ -6,6 +6,13 @@ A simple website to graph your commute time, powered by Google Maps' live traffi
 [![David dependency status](https://david-dm.org/Ezekiel-DA/timeToWork/status.svg)](https://david-dm.org/Ezekiel-DA/timeToWork)
 [![David devDependency status](https://david-dm.org/Ezekiel-DA/timeToWork/dev-status.svg)](https://david-dm.org/Ezekiel-DA/timeToWork?type=dev)
 
+## Quickstart
+Create a secrets.env containing:
+```
+TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<your Google Distance Matrix API key>
+TTW_PLACES_JSON_STRING=<your home/work addresses as a JSON object>
+```
+Then `docker-compose up` !
 
 ## Prerequisites
 You'll need:
@@ -16,20 +23,6 @@ You MUST key this key secret. Don't commit it to a public repo.
 Your home and work addresses should be strings that Google Maps is capable of parsing, e.g. `"10 Nonesuch Lane, Nowhere, 01234, Country"`.
 - a Linux box to run the app; this can be your dev box, a manually created VM, a Docker Machine created VirtualBox VM, some kind of Cloud host, etc.
 - Docker Engine installed on your Linux box. You can install this manually with `apt-get`, or let Docker Machine do all the work for you, VM provisioning included (e.g. for [Digital Ocean](https://docs.docker.com/machine/examples/ocean/)). 
-
-## Deployment only
-If all you want to do is deploy without touching the code, you don't even need to clone the repo. You can just:
-- point Docker Machine to your deployment target
-- start a MongoDB container
-- start the app container from the image delivered to Docker Hub
-
-In other words:
-
-    eval $(docker-machine env <target_env>)
-    docker run -d --name ttw-mongo -v ttw-db:/data/db --net=ttw-internal-network mongo
-    docker run -d --name ttw-node --net=ttw-internal-network -p 80:8000 -e "NODE_ENV=production" -e "TTW_MONGODB_URL=mongodb://ttw-mongo:27017/ttw" -e "TTW_GOOGLE_DISTANCE_MATRIX_API_KEY=<your API key>" -e "TTW_PLACES_JSON_STRING=<your address string>" nicolaslefebvre/ttw:alpha
-
-Don't forget to escape the `"`s in your address JSON ! (e.g. `-e "TTW_PLACES_JSON_STRING={\"home\":\"<address>\",\"work\":\"<address>"}"`
 
 ## Building from source
 You'll need:
@@ -48,7 +41,7 @@ If you have `Livereload` installed in your browser, client side code changes wil
 On the first run, the server will likely fail to start because of missing environment variables. The error messages should be explicit and the needed variables are [the same as above](#deployement-only).
 
 ### Building the Docker image
-    docker build -t nicolaslefebvre/ttw:alpha .
+    docker build -t nicolaslefebvre/ttw:latest .
 
 ### Updating the image in the Docker Hub registry
     docker login

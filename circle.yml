@@ -2,7 +2,7 @@ machine:
     timezone:
         America/New_York
     node:
-        version: 6.3.1
+        version: 7.7.3
     services:
         - docker
 dependencies:

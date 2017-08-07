@@ -28,7 +28,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
+    "gulp-babel": "^7.0.0",
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^3.0.1",
     "gulp-if": "^2.0.1",

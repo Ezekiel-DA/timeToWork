@@ -33,7 +33,7 @@
     "gulp-eslint": "^3.0.1",
     "gulp-if": "^2.0.1",
     "gulp-ignore": "^2.0.1",
-    "gulp-livereload": "^3.8.1",
+    "gulp-livereload": "^4.0.0",
     "gulp-nodemon": "^2.2.1",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-tape": "0.0.9",

@@ -18,7 +18,7 @@
     "metrics-graphics": "^2.10.1",
     "moment-range": "^3.0.0",
     "mongodb": "^2.2.10",
-    "request-promise": "^4.1.1",
+    "request-promise": "^4.2.5",
     "request": "^2.75.0",
     "whatwg-fetch": "^2.0.1"
   },
